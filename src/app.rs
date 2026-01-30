@@ -79,7 +79,7 @@ impl eframe::App for TemplateApp {
 
 			let selected = &mut self.affinity;
 
-			let mut combo = egui::ComboBox::from_label("Desired affinity").selected_text(format!("{:?}", selected));
+			let combo = egui::ComboBox::from_label("Desired affinity").selected_text(format!("{:?}", selected));
 			combo.show_ui(ui, |ui| {
 				ui.selectable_value(selected, moonlighter::Affinity::AggressiveFighting, "Aggressive Fighting");
 				ui.selectable_value(selected, moonlighter::Affinity::Alchemy, "Alchemy");
