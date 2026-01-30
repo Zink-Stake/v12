@@ -4,6 +4,7 @@
 pub struct TemplateApp {
 	// Example stuff:
 	player_number: usize,
+	rare: bool,
 
 	#[serde(skip)] // This how you opt-out of serialization of a field
 	affinity: moonlighter::Affinity,
@@ -18,6 +19,7 @@ impl Default for TemplateApp {
 			player_number: 0,
 			affinity: moonlighter::Affinity::AggressiveFighting,
 			recipe: None,
+			rare: false,
 		}
 	}
 }
@@ -76,6 +78,7 @@ impl eframe::App for TemplateApp {
 				ui.label("Player number: ");
 				ui.add(egui::Slider::new(&mut self.player_number, 0..=138).text("player number"));
 			});
+			ui.checkbox(&mut self.rare, "My Oven Is Rare");
 
 			let selected = &mut self.affinity;
 
@@ -227,7 +230,7 @@ impl eframe::App for TemplateApp {
 					max_length: 12,
 					max_sugars: 50,
 					player_number: self.player_number,
-					rare: false,
+					rare: self.rare,
 				});
 			};
 
