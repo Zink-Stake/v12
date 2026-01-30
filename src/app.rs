@@ -5,6 +5,7 @@ pub struct TemplateApp {
 	rare: bool,
 	vegetables: usize,
 	sugars: usize,
+	checkbox_states: [bool; 15],
 
 	#[serde(skip)] // This how you opt-out of serialization of a field
 	affinity: moonlighter::Affinity,
@@ -17,13 +18,13 @@ pub struct TemplateApp {
 impl Default for TemplateApp {
 	fn default() -> Self {
 		Self {
-			// Example stuff:
 			bear_meal_affinity: moonlighter::Affinity::AggressiveFighting,
 			affinity: moonlighter::Affinity::AggressiveFighting,
 			recipe: None,
 			rare: false,
 			vegetables: 12,
 			sugars: 50,
+			checkbox_states: [false; 15],
 		}
 	}
 }
@@ -384,15 +385,11 @@ impl eframe::App for TemplateApp {
 
 			if let Some(recipe) = &self.recipe {
 				ui.label(format!("Best recipe found with {} vegetables!", recipe.unique_vegs.len()));
-				let mut ch = false;
-				ui.checkbox(&mut ch, format!("{:?}", recipe.cereal));
-				let mut ch = false;
-				ui.checkbox(&mut ch, "water");
-				let mut ch = false;
-				ui.checkbox(&mut ch, format!("{} sugars", recipe.filler_sugars));
-				for (veg, processing) in &recipe.unique_vegs {
-					let mut ch = false;
-					ui.checkbox(&mut ch, format!("{:?} {:?}", veg, processing));
+				ui.checkbox(&mut self.checkbox_states[0], format!("{:?}", recipe.cereal));
+				ui.checkbox(&mut self.checkbox_states[1], "water");
+				ui.checkbox(&mut self.checkbox_states[2], format!("{} sugars", recipe.filler_sugars));
+				for (idx, (veg, processing)) in recipe.unique_vegs.iter().enumerate() {
+					ui.checkbox(&mut self.checkbox_states[3 + idx], format!("{:?} {:?}", veg, processing));
 				}
 			}
 
