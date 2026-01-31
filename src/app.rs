@@ -395,7 +395,12 @@ impl eframe::App for TemplateApp {
 
 			ui.separator();
 
-			ui.add(egui::github_link_file!("https://github.com/zink-stake/v12", "Source code."));
+			ui.horizontal(|ui| {
+				ui.label("Grimmaz a Zink Stake. Source code:");
+				ui.add(egui::github_link_file!("https://github.com/zink-stake/v12", "V12"));
+				ui.label("and");
+				ui.add(egui::github_link_file!("https://github.com/zink-stake/moonlighter", "moonlighter"));
+			});
 
 			ui.with_layout(egui::Layout::bottom_up(egui::Align::LEFT), |ui| {
 				powered_by_egui_and_eframe(ui);
