@@ -7,11 +7,8 @@ pub struct TemplateApp {
 	sugars: usize,
 	checkbox_states: [bool; 15],
 
-	#[serde(skip)] // This how you opt-out of serialization of a field
 	affinity: moonlighter::Affinity,
-	#[serde(skip)]
 	bear_meal_affinity: moonlighter::Affinity,
-	#[serde(skip)]
 	recipe: Option<moonlighter::Recipe>,
 }
 
