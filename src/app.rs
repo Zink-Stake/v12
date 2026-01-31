@@ -51,6 +51,10 @@ impl TemplateApp {
 			Default::default()
 		}
 	}
+
+	pub fn player_number(&self) -> usize {
+		(138 + 57 + self.bear_meal_affinity.offset() - moonlighter::Affinity::CoalMaking.offset()) % 138
+	}
 }
 
 impl eframe::App for TemplateApp {
@@ -90,7 +94,7 @@ impl eframe::App for TemplateApp {
 					affinity: self.affinity.clone(),
 					max_length: self.vegetables,
 					max_sugars: self.sugars,
-					player_number: (138 + 57 + self.bear_meal_affinity.offset() - moonlighter::Affinity::CoalMaking.offset()) % 138,
+					player_number: self.player_number(),
 					rare: self.rare,
 				});
 				self.generating_state = GeneratingState::Idle;
@@ -98,6 +102,7 @@ impl eframe::App for TemplateApp {
 			}
 			// The central panel the region left after adding TopPanel's and SidePanel's
 			ui.heading("V12: 12 vegetable moonshine generator");
+			ui.label(format!("Your player number is {}", self.player_number()));
 
 			ui.checkbox(&mut self.rare, "My Oven Is Rare");
 
