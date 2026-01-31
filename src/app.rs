@@ -371,6 +371,7 @@ impl eframe::App for TemplateApp {
 			});
 
 			if ui.button("Generate").clicked() {
+				self.checkbox_states = [false; 15];
 				self.recipe = moonlighter::find_recipe(&moonlighter::Options {
 					affinity: self.affinity.clone(),
 					max_length: self.vegetables,
