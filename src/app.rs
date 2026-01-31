@@ -1,4 +1,12 @@
 /// We derive Deserialize/Serialize so we can persist app state on shutdown.
+
+#[derive(PartialEq, Eq)]
+enum GeneratingState {
+	Idle,
+	GenerateClicked,
+	Generating,
+}
+
 #[derive(serde::Deserialize, serde::Serialize)]
 #[serde(default)] // if we add new fields, give them default values when deserializing old state
 pub struct TemplateApp {
@@ -6,6 +14,8 @@ pub struct TemplateApp {
 	vegetables: usize,
 	sugars: usize,
 	checkbox_states: [bool; 15],
+	#[serde(skip)]
+	generating_state: GeneratingState,
 
 	affinity: moonlighter::Affinity,
 	bear_meal_affinity: moonlighter::Affinity,
@@ -22,6 +32,7 @@ impl Default for TemplateApp {
 			vegetables: 12,
 			sugars: 50,
 			checkbox_states: [false; 15],
+			generating_state: GeneratingState::Idle,
 		}
 	}
 }
@@ -73,6 +84,18 @@ impl eframe::App for TemplateApp {
 		});
 
 		egui::CentralPanel::default().show(ctx, |ui| {
+			if self.generating_state == GeneratingState::Generating {
+				self.checkbox_states = [false; 15];
+				self.recipe = moonlighter::find_recipe(&moonlighter::Options {
+					affinity: self.affinity.clone(),
+					max_length: self.vegetables,
+					max_sugars: self.sugars,
+					player_number: (138 + 57 + self.bear_meal_affinity.offset() - moonlighter::Affinity::CoalMaking.offset()) % 138,
+					rare: self.rare,
+				});
+				self.generating_state = GeneratingState::Idle;
+				ctx.request_repaint();
+			}
 			// The central panel the region left after adding TopPanel's and SidePanel's
 			ui.heading("V12: 12 vegetable moonshine generator");
 
@@ -370,16 +393,17 @@ impl eframe::App for TemplateApp {
 				ui.selectable_value(selected, moonlighter::Affinity::Yoyo, "Yoyo");
 			});
 
-			if ui.button("Generate").clicked() {
-				self.checkbox_states = [false; 15];
-				self.recipe = moonlighter::find_recipe(&moonlighter::Options {
-					affinity: self.affinity.clone(),
-					max_length: self.vegetables,
-					max_sugars: self.sugars,
-					player_number: (138 + 57 + self.bear_meal_affinity.offset() - moonlighter::Affinity::CoalMaking.offset()) % 138,
-					rare: self.rare,
-				});
-			};
+			if self.generating_state == GeneratingState::GenerateClicked {
+				ui.label("Generating...");
+				self.generating_state = GeneratingState::Generating;
+				ctx.request_repaint();
+			} else if self.generating_state == GeneratingState::Idle {
+				if ui.button("Generate").clicked() {
+					self.recipe = None;
+					self.generating_state = GeneratingState::GenerateClicked;
+					ctx.request_repaint();
+				};
+			}
 
 			if let Some(recipe) = &self.recipe {
 				ui.label(format!("Best recipe found with {} vegetables!", recipe.unique_vegs.len()));
