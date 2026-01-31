@@ -80,7 +80,7 @@ impl eframe::App for TemplateApp {
 
 			let selected = &mut self.bear_meal_affinity;
 
-			let combo = egui::ComboBox::from_label("Bear + Corn + Pan + Oven gives me:").selected_text(format!("{:?}", selected));
+			let combo = egui::ComboBox::from_label("<- Bear + Corn + Pan + Oven gives me").selected_text(format!("{:?}", selected));
 
 			ui.add(egui::Slider::new(&mut self.vegetables, 1..=12).text("Unique vegetables to use"));
 			ui.add(egui::Slider::new(&mut self.sugars, 2..=80).text("Maximum sugars to add"));
@@ -228,7 +228,7 @@ impl eframe::App for TemplateApp {
 
 			let selected = &mut self.affinity;
 
-			let combo = egui::ComboBox::from_label("Desired affinity").selected_text(format!("{:?}", selected));
+			let combo = egui::ComboBox::from_label("<- Desired affinity").selected_text(format!("{:?}", selected));
 			combo.show_ui(ui, |ui| {
 				ui.selectable_value(selected, moonlighter::Affinity::AggressiveFighting, "AggressiveFighting");
 				ui.selectable_value(selected, moonlighter::Affinity::Alchemy, "Alchemy");
