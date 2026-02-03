@@ -1,0 +1,16 @@
+h1. V12 - 12 vegetable moonshine generator for Wurm Online
+
+This is a moonshine generator for Wurm Online that finds the shortest possible recipe with desired affinity, using given number of unique vegetables. If you don't know what any of this means, consider yourself fortunate.
+
+h2. Usage
+
+1. Input your 'calibration affinity' in the first combo box. This is what you get if you put bear meat and corn in a frying pan, then cook it in normal oven.
+2. Adjust vegetable number and maximum sugars if you like. Defaults are optimal, you might want to use less vegetables if you don't care about the timer length. Sugars will be already lowest possible, smaller values of max sugars can bring marginal performance improvements. Smaller values of max vegetables can drastically increase performance but reduce the timer.
+3. Tick "My Oven Is Rare" if it is
+4. Press "Generate"
+5. Wait (can take some seconds in case of high number of vegetables).
+6. Get a recipe!
+
+h2. See also
+
+Library (and CLI tool) powering the generator: "moonlighter":https://github.com/Zink-Stake/moonlighter
