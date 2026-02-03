@@ -13,7 +13,7 @@ pub struct TemplateApp {
 	rare: bool,
 	vegetables: usize,
 	sugars: usize,
-	checkbox_states: [bool; 15],
+	checkbox_states: [bool; 18],
 	#[serde(skip)]
 	generating_state: GeneratingState,
 
@@ -31,7 +31,7 @@ impl Default for TemplateApp {
 			rare: false,
 			vegetables: 12,
 			sugars: 50,
-			checkbox_states: [false; 15],
+			checkbox_states: [false; 18],
 			generating_state: GeneratingState::Idle,
 		}
 	}
@@ -89,11 +89,12 @@ impl eframe::App for TemplateApp {
 
 		egui::CentralPanel::default().show(ctx, |ui| {
 			if self.generating_state == GeneratingState::Generating {
-				self.checkbox_states = [false; 15];
+				self.checkbox_states = [false; 18];
 				self.recipe = moonlighter::find_recipe(&moonlighter::Options {
 					affinity: self.affinity.clone(),
-					max_length: self.vegetables,
+					max_vegetables: self.vegetables,
 					max_sugars: self.sugars,
+					full_cereals: false,
 					player_number: self.player_number(),
 					rare: self.rare,
 				});
@@ -412,11 +413,13 @@ impl eframe::App for TemplateApp {
 
 			if let Some(recipe) = &self.recipe {
 				ui.label(format!("Best recipe found with {} vegetables!", recipe.unique_vegs.len()));
-				ui.checkbox(&mut self.checkbox_states[0], format!("{:?}", recipe.cereal));
-				ui.checkbox(&mut self.checkbox_states[1], "water");
-				ui.checkbox(&mut self.checkbox_states[2], format!("{} sugars", recipe.filler_sugars));
+				ui.checkbox(&mut self.checkbox_states[0], "water");
+				ui.checkbox(&mut self.checkbox_states[1], format!("{} sugars", recipe.filler_sugars));
+				for (idx, cereal) in recipe.cereals.iter().enumerate() {
+					ui.checkbox(&mut self.checkbox_states[2 + idx], format!("{:?}", cereal));
+				}
 				for (idx, (veg, processing)) in recipe.unique_vegs.iter().enumerate() {
-					ui.checkbox(&mut self.checkbox_states[3 + idx], format!("{:?} {:?}", veg, processing));
+					ui.checkbox(&mut self.checkbox_states[6 + idx], format!("{:?} {:?}", veg, processing));
 				}
 			}
 
