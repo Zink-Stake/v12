@@ -125,7 +125,6 @@ impl eframe::App for TemplateApp {
 				ui.selectable_value(selected, moonlighter::Affinity::ArmourSmithing, "ArmourSmithing");
 				ui.selectable_value(selected, moonlighter::Affinity::Axes, "Axes");
 				ui.selectable_value(selected, moonlighter::Affinity::Baking, "Baking");
-				ui.selectable_value(selected, moonlighter::Affinity::Ballistae, "Ballistae");
 				ui.selectable_value(selected, moonlighter::Affinity::Beverages, "Beverages");
 				ui.selectable_value(selected, moonlighter::Affinity::Blacksmithing, "Blacksmithing");
 				ui.selectable_value(selected, moonlighter::Affinity::BladesSmithing, "BladesSmithing");
@@ -138,6 +137,7 @@ impl eframe::App for TemplateApp {
 				ui.selectable_value(selected, moonlighter::Affinity::Butchering, "Butchering");
 				ui.selectable_value(selected, moonlighter::Affinity::ButcheringKnife, "ButcheringKnife");
 				ui.selectable_value(selected, moonlighter::Affinity::Carpentry, "Carpentry");
+				ui.selectable_value(selected, moonlighter::Affinity::Cartography, "Cartography");
 				ui.selectable_value(selected, moonlighter::Affinity::CarvingKnife, "CarvingKnife");
 				ui.selectable_value(selected, moonlighter::Affinity::Catapults, "Catapults");
 				ui.selectable_value(selected, moonlighter::Affinity::ChainArmourSmithing, "ChainArmourSmithing");
@@ -270,7 +270,6 @@ impl eframe::App for TemplateApp {
 				ui.selectable_value(selected, moonlighter::Affinity::ArmourSmithing, "ArmourSmithing");
 				ui.selectable_value(selected, moonlighter::Affinity::Axes, "Axes");
 				ui.selectable_value(selected, moonlighter::Affinity::Baking, "Baking");
-				ui.selectable_value(selected, moonlighter::Affinity::Ballistae, "Ballistae");
 				ui.selectable_value(selected, moonlighter::Affinity::Beverages, "Beverages");
 				ui.selectable_value(selected, moonlighter::Affinity::Blacksmithing, "Blacksmithing");
 				ui.selectable_value(selected, moonlighter::Affinity::BladesSmithing, "BladesSmithing");
@@ -283,6 +282,7 @@ impl eframe::App for TemplateApp {
 				ui.selectable_value(selected, moonlighter::Affinity::Butchering, "Butchering");
 				ui.selectable_value(selected, moonlighter::Affinity::ButcheringKnife, "ButcheringKnife");
 				ui.selectable_value(selected, moonlighter::Affinity::Carpentry, "Carpentry");
+				ui.selectable_value(selected, moonlighter::Affinity::Cartography, "Cartography");
 				ui.selectable_value(selected, moonlighter::Affinity::CarvingKnife, "CarvingKnife");
 				ui.selectable_value(selected, moonlighter::Affinity::Catapults, "Catapults");
 				ui.selectable_value(selected, moonlighter::Affinity::ChainArmourSmithing, "ChainArmourSmithing");
