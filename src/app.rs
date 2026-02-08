@@ -184,7 +184,7 @@ impl eframe::App for TemplateApp {
 				ui.selectable_value(selected, moonlighter::Affinity::Masonry, "Masonry");
 				ui.selectable_value(selected, moonlighter::Affinity::Mauls, "Mauls");
 				ui.selectable_value(selected, moonlighter::Affinity::Meditating, "Meditating");
-				ui.selectable_value(selected, moonlighter::Affinity::MediumBow, "MediumBow");
+				ui.selectable_value(selected, moonlighter::Affinity::ReflexBow, "ReflexBow");
 				ui.selectable_value(selected, moonlighter::Affinity::MediumMaul, "MediumMaul");
 				ui.selectable_value(selected, moonlighter::Affinity::MediumMetalShield, "MediumMetalShield");
 				ui.selectable_value(selected, moonlighter::Affinity::MediumWoodenShield, "MediumWoodenShield");
@@ -329,7 +329,7 @@ impl eframe::App for TemplateApp {
 				ui.selectable_value(selected, moonlighter::Affinity::Masonry, "Masonry");
 				ui.selectable_value(selected, moonlighter::Affinity::Mauls, "Mauls");
 				ui.selectable_value(selected, moonlighter::Affinity::Meditating, "Meditating");
-				ui.selectable_value(selected, moonlighter::Affinity::MediumBow, "MediumBow");
+				ui.selectable_value(selected, moonlighter::Affinity::ReflexBow, "ReflexBow");
 				ui.selectable_value(selected, moonlighter::Affinity::MediumMaul, "MediumMaul");
 				ui.selectable_value(selected, moonlighter::Affinity::MediumMetalShield, "MediumMetalShield");
 				ui.selectable_value(selected, moonlighter::Affinity::MediumWoodenShield, "MediumWoodenShield");
