@@ -11,6 +11,7 @@ enum GeneratingState {
 #[serde(default)] // if we add new fields, give them default values when deserializing old state
 pub struct TemplateApp {
 	rare: bool,
+	full_cereals: bool,
 	vegetables: usize,
 	sugars: usize,
 	checkbox_states: [bool; 18],
@@ -27,6 +28,7 @@ impl Default for TemplateApp {
 		Self {
 			bear_meal_affinity: moonlighter::Affinity::AggressiveFighting,
 			affinity: moonlighter::Affinity::AggressiveFighting,
+			full_cereals: true,
 			recipe: None,
 			rare: false,
 			vegetables: 12,
@@ -94,7 +96,7 @@ impl eframe::App for TemplateApp {
 					affinity: self.affinity.clone(),
 					max_vegetables: self.vegetables,
 					max_sugars: self.sugars,
-					full_cereals: false,
+					full_cereals: self.full_cereals,
 					player_number: self.player_number(),
 					rare: self.rare,
 				});
@@ -106,6 +108,7 @@ impl eframe::App for TemplateApp {
 			ui.label(format!("Your player number is {}", self.player_number()));
 
 			ui.checkbox(&mut self.rare, "My Oven Is Rare");
+			ui.checkbox(&mut self.full_cereals, "Use 4 cereals");
 
 			ui.add(egui::Slider::new(&mut self.vegetables, 1..=12).text("Unique vegetables to use"));
 			ui.add(egui::Slider::new(&mut self.sugars, 2..=80).text("Maximum sugars to add"));
