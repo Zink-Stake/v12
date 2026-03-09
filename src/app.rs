@@ -448,6 +448,10 @@ impl eframe::App for TemplateApp {
 
 			ui.separator();
 
+			ui.label("Tip: if you want to increase the volume of moonshine without changing affinity, add packs of 3 fried cabbage");
+
+			ui.separator();
+
 			ui.horizontal(|ui| {
 				ui.label("Grimmaz a Zink Stake. Source code:");
 				ui.hyperlink_to("V12", "https://github.com/zink-stake/v12");
