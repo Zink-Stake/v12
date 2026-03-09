@@ -10,10 +10,11 @@ enum GeneratingState {
 #[derive(serde::Deserialize, serde::Serialize)]
 #[serde(default)] // if we add new fields, give them default values when deserializing old state
 pub struct TemplateApp {
-	rare: bool,
 	full_cereals: bool,
+	complex_processing: bool,
+	custom_offset: usize,
 	vegetables: usize,
-	sugars: usize,
+	max_fillers: usize,
 	checkbox_states: [bool; 18],
 	#[serde(skip)]
 	generating_state: GeneratingState,
@@ -29,10 +30,11 @@ impl Default for TemplateApp {
 			bear_meal_affinity: moonlighter::Affinity::AggressiveFighting,
 			affinity: moonlighter::Affinity::AggressiveFighting,
 			full_cereals: true,
+			complex_processing: false,
 			recipe: None,
-			rare: false,
+			custom_offset: 0,
 			vegetables: 12,
-			sugars: 50,
+			max_fillers: 80,
 			checkbox_states: [false; 18],
 			generating_state: GeneratingState::Idle,
 		}
@@ -94,11 +96,12 @@ impl eframe::App for TemplateApp {
 				self.checkbox_states = [false; 18];
 				self.recipe = moonlighter::find_recipe(&moonlighter::Options {
 					affinity: self.affinity.clone(),
-					max_vegetables: self.vegetables,
-					max_sugars: self.sugars,
+					vegs: self.vegetables,
+					max_fillers: self.max_fillers,
+					complex_processing: self.complex_processing,
 					full_cereals: self.full_cereals,
 					player_number: self.player_number(),
-					rare: self.rare,
+					custom_offset: self.custom_offset,
 				});
 				self.generating_state = GeneratingState::Idle;
 				ctx.request_repaint();
@@ -107,11 +110,12 @@ impl eframe::App for TemplateApp {
 			ui.heading("V12: 12 vegetable moonshine generator");
 			ui.label(format!("Your player number is {}", self.player_number()));
 
-			ui.checkbox(&mut self.rare, "My Oven Is Rare");
+			ui.add(egui::Slider::new(&mut self.custom_offset, 0..=255).text("Custom offset (+1 for each rare item used, +2 supreme, +3 fantastic)"));
 			ui.checkbox(&mut self.full_cereals, "Use 4 cereals");
+			ui.checkbox(&mut self.complex_processing, "Use complex processings options (fried and roasted)");
 
 			ui.add(egui::Slider::new(&mut self.vegetables, 1..=12).text("Unique vegetables to use"));
-			ui.add(egui::Slider::new(&mut self.sugars, 2..=80).text("Maximum sugars to add"));
+			ui.add(egui::Slider::new(&mut self.max_fillers, 0..=80).text("Maximum sugar and barley to add to adjust affinity"));
 
 			let current_bear_meal_affinity = self.bear_meal_affinity.offset();
 			let selected = &mut self.bear_meal_affinity;
@@ -416,14 +420,28 @@ impl eframe::App for TemplateApp {
 				};
 			}
 
-			if let Some(recipe) = &self.recipe {
-				ui.label(format!("Best recipe found with {} vegetables!", recipe.unique_vegs.len()));
+			if let Some(mut recipe) = self.recipe.clone() {
+				ui.label(format!("Best recipe found with {} vegetables!", recipe.vegs.len()));
 				ui.checkbox(&mut self.checkbox_states[0], "water");
-				ui.checkbox(&mut self.checkbox_states[1], format!("{} sugars", recipe.filler_sugars));
+				ui.checkbox(&mut self.checkbox_states[1], format!("{} sugars", recipe.sugars));
+				ui.checkbox(&mut self.checkbox_states[1], format!("{} barleys", recipe.sugars));
 				for (idx, cereal) in recipe.cereals.iter().enumerate() {
 					ui.checkbox(&mut self.checkbox_states[2 + idx], format!("{:?}", cereal));
 				}
-				for (idx, (veg, processing)) in recipe.unique_vegs.iter().enumerate() {
+				for (idx, veg) in recipe.vegs.iter().enumerate() {
+					while recipe.processings[0].1 == 0 {
+						recipe.processings.remove(0);
+					}
+					let processing = match recipe.processings[0] {
+						(processing, 1) => {
+							recipe.processings.remove(0);
+							processing
+						}
+						(processing, _) => {
+							recipe.processings[0].1 -= 1;
+							processing
+						}
+					};
 					ui.checkbox(&mut self.checkbox_states[6 + idx], format!("{:?} {:?}", veg, processing));
 				}
 			}
