@@ -424,7 +424,7 @@ impl eframe::App for TemplateApp {
 				ui.label(format!("Best recipe found with {} vegetables!", recipe.vegs.len()));
 				ui.checkbox(&mut self.checkbox_states[0], "water");
 				ui.checkbox(&mut self.checkbox_states[1], format!("{} sugars", recipe.sugars));
-				ui.checkbox(&mut self.checkbox_states[1], format!("{} barleys", recipe.sugars));
+				ui.checkbox(&mut self.checkbox_states[1], format!("{} barleys", recipe.barleys));
 				for (idx, cereal) in recipe.cereals.iter().enumerate() {
 					ui.checkbox(&mut self.checkbox_states[2 + idx], format!("{:?}", cereal));
 				}
