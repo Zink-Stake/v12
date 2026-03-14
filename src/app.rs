@@ -12,9 +12,9 @@ enum GeneratingState {
 pub struct TemplateApp {
 	full_cereals: bool,
 	complex_processing: bool,
-	custom_offset: usize,
-	vegetables: usize,
-	max_fillers: usize,
+	custom_offset: u64,
+	vegetables: u64,
+	max_fillers: u64,
 	checkbox_states: [bool; 18],
 	#[serde(skip)]
 	generating_state: GeneratingState,
@@ -56,7 +56,7 @@ impl TemplateApp {
 		}
 	}
 
-	pub fn player_number(&self) -> usize {
+	pub fn player_number(&self) -> u64 {
 		(138 + 57 + self.bear_meal_affinity.offset() - moonlighter::Affinity::CoalMaking.offset()) % 138
 	}
 }
