@@ -448,7 +448,7 @@ impl eframe::App for TemplateApp {
 
 			ui.separator();
 
-			ui.label("Tip: if you want to increase the volume of moonshine without changing affinity, add packs of 3 fried cabbage");
+			ui.label("Tip: if you want to increase the volume of moonshine without changing affinity, add packs of 3 fried pumpkins");
 
 			ui.separator();
 
